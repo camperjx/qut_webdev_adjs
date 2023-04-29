@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<body>
+<p id="weather">The current weather is: </p>
+
+<form>
+    <input id="location" type="text">
+    <input type="button" value="submit" onclick="getWeatherInfo()">
+</form>
+<script>
+    function getWeatherInfo() {
+
+        let location = document.getElementById('location').value
+        fetch("http://localhost:3000/weather?location="+location)
+            .then(res => res.json())
+            .then(weather => {
+                const report = weather.condition + " " + weather.temperature + String.fromCharCode(8451);
+                let infoDiv = document.getElementById("weather")
+                infoDiv.innerHTML = ""
+                infoDiv.appendChild(document.createTextNode(report));
+
+                let img = document.createElement("img");
+                let src = document.createAttribute("src");
+                src.value = weather.icon //"//cdn.weatherapi.com/weather/64x64/day/200.png";
+                img.setAttributeNode(src);
+                document.getElementById("weather").appendChild(img);
+            });
+
+    }
+
+
+</script>
+</body>
+</html>
